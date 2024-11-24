@@ -5,16 +5,9 @@
   "main": "lib/main.js",
   "license": "GPL-3.0-only",
   "scripts": {
-    "build": "obsidian-plugin build src/main.ts --with-stylesheet src/styles.css",
-    "dev": "node dev.js",
-    "dev:prod": "cross-env BUILD_ENV=development node dev.js --prod",
-    "lint:fix": "eslint --ext .ts,.js,.json src/ --fix",
-    "lint": "eslint --ext .ts src",
-    "bump": "node commit-and-tag-version.js",
-    "preexport": "pnpm run build",
-    "export": "node export.js",
-    "predeploy": "pnpm run bump",
-    "deploy": "pnpm run export"
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "version": "node version-bump.mjs && git add manifest.json versions.json"
   },
   "commit-and-tag-version": {
     "t": ""
@@ -40,7 +33,9 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@types/es6-promise": "^3.3.2",
     "commit-and-tag-version": "^11.2.1",
+    "esbuild": "^0.24.0",
     "i18next": "^22.5.0"
   }
 }
